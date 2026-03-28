@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FunFinance | Dashboard</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-logo">FunFinance</div>
+
+    <ul class="nav-links">
+      <li><a href="index.html" class="active">Dashboard</a></li>
+      <li><a href="calculators.html">Calculators</a></li>
+      <li><a href="goals.html">Goals</a></li>
+      <li><a href="news.html">News</a></li>
+    </ul>
+
+    <button class="theme-toggle">Light Mode</button>
+  </nav>
+
+  <main class="container">
+    <h1 class="page-title"></h1>
+    <p class="page-subtitle">Here's your financial snapshot for today.</p>
+
+    <div class="stat-grid">
+      <div class="card">
+        <div class="card-label">Account Balance</div>
+        <div class="card-value">$4,280</div>
+        <div class="card-change positive">↑ 12% this month</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Monthly Spending</div>
+        <div class="card-value">$1,340</div>
+        <div class="card-change negative">↑ 8% vs last month</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Total Saved</div>
+        <div class="card-value">$9,150</div>
+        <div class="card-change positive">↑ 5% this month</div>
+      </div>
+      <div class="card">
+        <div class="card-label">Next Payday</div>
+        <div class="card-value">Apr 1</div>
+        <div class="card-change positive">5 days away</div>
+      </div>
+    </div>
+
+    <div class="chart-grid">
+      <div class="card">
+        <div class="chart-title">Monthly Spending Breakdown</div>
+        <div class="chart-container">
+          <canvas id="spendingChart"></canvas>
+        </div>
+      </div>
+      <div class="card">
+        <div class="chart-title">Spending by Category</div>
+        <div class="chart-container">
+          <canvas id="categoryChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
