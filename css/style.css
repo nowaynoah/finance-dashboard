@@ -718,3 +718,71 @@ body {
   color: var(--text-muted);
   line-height: 1.6;
 }
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+
+    .navbar {
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        padding: 1rem;
+    }
+
+    .nav-logo {
+        font-size: 1.1rem;
+    }
+
+    .nav-links {
+        gap: 1rem;
+        flex-wrap: wrap;
+        font-size: 0.85rem;
+    }
+
+    .theme-toggle {
+        font-size: 0.75rem;
+        padding: 0.35rem 0.75rem;
+    }
+
+    .stat-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+
+    .chart-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .calculator-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .goals-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .news-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .learn-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .stat-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .page-title {
+        font-size: 1.4rem;
+    }
+
+    .card-value {
+        font-size: 1.6rem;
+    }
+
+    .container {
+        padding: 1.5rem 1rem;
+    }
+}
