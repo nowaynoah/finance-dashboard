@@ -53,6 +53,20 @@
       <div class="calculator-card" id="osap-calculator">
         <h2>🎓 OSAP Loan Calculator</h2>
         <p>See how long it will take to pay off your student loan.</p>
+
+        <div class="calc-input-group">
+          <label for="osap-balance">Total Loan Balance ($)</label>
+          <input type="number" id="osap-balance" placeholder="e.g. 20000" />
+
+          <label for="osap-rate">Annual Interest Rate (%)</label>
+          <input type="number" id="osap-rate" placeholder="e.g. 6.5" step="0.01" />
+
+          <label for="osap-payment">Monthly Payment ($)</label>
+          <input type="number" id="osap-payment" placeholder="e.g. 300" />
+        </div>
+
+        <button class="calc-btn" id="osap-btn">Calculate Payoff</button>
+        <div class="calc-result" id="osap-result"></div>
       </div>
 
       <div class="calculator-card" id="creditcard-calculator">
