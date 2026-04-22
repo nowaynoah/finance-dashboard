@@ -6,10 +6,10 @@ themeToggle.addEventListener("click", function () {
 
     if (html.getAttribute("data-theme") === "dark") {
         html.setAttribute("data-theme", "light");
-        themeToggle.textContent = "🌙 Dark Mode";
+        themeToggle.textContent = "Dark Mode";
     } else {
         html.setAttribute("data-theme", "dark");
-        themeToggle.textContent = "☀️ Light Mode";
+        themeToggle.textContent = "Light Mode";
     }
 });
 
@@ -43,6 +43,49 @@ mortgageBtn.addEventListener("click", function () {
     result.innerHTML = `
         <strong>Loan Amount:</strong> $${loanAmount.toLocaleString("en-CA", { minimumFractionDigits: 2 })}<br>
         <strong>Monthly Payment:</strong> $${monthlyPayment.toLocaleString("en-CA", { minimumFractionDigits: 2 })}<br>
+        <strong>Total Payment:</strong> $${totalPayment.toLocaleString("en-CA", { minimumFractionDigits: 2 })}<br>
+        <strong>Total Interest:</strong> $${totalInterest.toLocaleString("en-CA", { minimumFractionDigits: 2 })}
+    `;
+    result.classList.add("visible");
+});
+
+// OSAP LOAN CALCULATOR
+const osapBtn = document.getElementById("osap-btn");
+
+osapBtn.addEventListener("click", function () {
+    const balance = parseFloat(document.getElementById("osap-balance").value);
+    const annualRate = parseFloat(document.getElementById("osap-rate").value);
+    const monthlyPayment = parseFloat(document.getElementById("osap-payment").value);
+    const result = document.getElementById("osap-result");
+
+    if (!balance || !annualRate || !monthlyPayment) {
+        result.innerHTML = "Please fill in all fields.";
+        result.classList.add("visible");
+        return;
+    }
+
+    const monthlyRate = annualRate / 100 / 12;
+
+    // Check  for if payment is enough to cover interest
+    const minPayment = balance * monthlyRate;
+    if (monthlyPayment <= minPayment) {
+        result.innerHTML = `<strong>⚠️ Warning:</strong> Your monthly payment of $${monthlyPayment.toFixed(2)} doesn't cover the monthly interest of $${minPayment.toFixed(2)}. You'll never pay off the loan at this rate.`;
+        result.classList.add("visible");
+        return;
+    }
+
+    const months = Math.ceil(
+        -Math.log(1 - (balance * monthlyRate) / monthlyPayment) /
+        Math.log(1 + monthlyRate)
+    );
+
+    const totalPayment = monthlyPayment * months;
+    const totalInterest = totalPayment - balance;
+    const years = Math.floor(months / 12);
+    const remainingMonths = months % 12;
+
+    result.innerHTML = `
+        <strong>Payoff Time:</strong> ${years > 0 ? years + " years " : ""}${remainingMonths > 0 ? remainingMonths + " months" : ""}<br>
         <strong>Total Payment:</strong> $${totalPayment.toLocaleString("en-CA", { minimumFractionDigits: 2 })}<br>
         <strong>Total Interest:</strong> $${totalInterest.toLocaleString("en-CA", { minimumFractionDigits: 2 })}
     `;
