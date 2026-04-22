@@ -52,11 +52,11 @@ To Run Locally:
 
 1. Clone the repository (in VSC terminal: bash):
 
-git clone https://github.com/nowaynoah/finance-dashboard.git
+    git clone https://github.com/nowaynoah/finance-dashboard.git
 
 2. Navigate into the project folder (in VSC terminal: bash):
 
-cd finance-dashboard
+    cd finance-dashboard
 
 3. Right-click on 'splash.html' in VSC, click 'Reveal in File Explorer', and double click the file in File Explorer
 
