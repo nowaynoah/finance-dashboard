@@ -134,3 +134,41 @@ ccBtn.addEventListener("click", function () {
     `;
     result.classList.add("visible");
 });
+
+// HISA CALCULATOR
+const hisaBtn = document.getElementById("hisa-btn");
+
+hisaBtn.addEventListener("click", function () {
+    const initial = parseFloat(document.getElementById("hisa-initial").value);
+    const monthly = parseFloat(document.getElementById("hisa-monthly").value);
+    const annualRate = parseFloat(document.getElementById("hisa-rate").value);
+    const years = parseFloat(document.getElementById("hisa-years").value);
+    const result = document.getElementById("hisa-result");
+
+    if (!initial || !annualRate || !years) {
+        result.innerHTML = "Please fill in all required fields.";
+        result.classList.add("visible");
+        return;
+    }
+
+    const monthlyRate = annualRate / 100 / 12;
+    const numMonths = years * 12;
+
+    // Calculation for compound growth of initial deposit
+    const initialGrowth = initial * Math.pow(1 + monthlyRate, numMonths);
+
+    // Calculation for compound growth of monthly contributions
+    const contributionGrowth = monthly *
+        ((Math.pow(1 + monthlyRate, numMonths) - 1) / monthlyRate);
+
+    const finalBalance = initialGrowth + contributionGrowth;
+    const totalContributions = initial + (monthly * numMonths);
+    const totalInterestEarned = finalBalance - totalContributions;
+
+    result.innerHTML = `
+        <strong>Final Balance:</strong> $${finalBalance.toLocaleString("en-CA", { minimumFractionDigits: 2 })}<br>
+        <strong>Total Contributions:</strong> $${totalContributions.toLocaleString("en-CA", { minimumFractionDigits: 2 })}<br>
+        <strong>Interest Earned:</strong> $${totalInterestEarned.toLocaleString("en-CA", { minimumFractionDigits: 2 })}
+    `;
+    result.classList.add("visible");
+});
