@@ -5,6 +5,10 @@ if (!savedUsername) {
     window.location.href = "splash.html";
 }
 
+// THEME SELECTION CARRY-OVER
+const savedTheme = localStorage.getItem("funfinance_theme") || "dark";
+document.documentElement.setAttribute("data-theme", savedTheme);
+
 // TIME-OF-DAY BASED GREETING
 function getGreeting() {
     const hour = new Date().getHours();
@@ -20,6 +24,7 @@ document.querySelector(".page-title").textContent =
 
 // THEME TOGGLE
 const themeToggle = document.querySelector(".theme-toggle");
+themeToggle.textContent = savedTheme === "dark" ? "Light Mode" : "Dark Mode";
 
 themeToggle.addEventListener("click", function () {
     const html = document.documentElement;
@@ -27,9 +32,11 @@ themeToggle.addEventListener("click", function () {
     if (html.getAttribute("data-theme") === "dark") {
         html.setAttribute("data-theme", "light");
         themeToggle.textContent = "Dark Mode";
+        localStorage.setItem("funfinance_theme", "light");
     } else {
         html.setAttribute("data-theme", "dark");
         themeToggle.textContent = "Light Mode";
+        localStorage.setItem("funfinance_theme", "dark");
     }
 });
 
