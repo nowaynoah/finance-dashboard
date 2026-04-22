@@ -91,7 +91,10 @@ function renderLimits() {
             </div>
             <div class="goal-card-footer">
                 <span>${remaining >= 0 ? "$" + remaining.toFixed(2) + " remaining" : "$" + Math.abs(remaining).toFixed(2) + " over budget"}</span>
-                <span>${percentage.toFixed(0)}%</span>
+                <span style="display:flex; align-items:center; gap:0.5rem;">
+                    <span>${percentage.toFixed(0)}%</span>
+                    <button class="delete-goal-btn" data-id="${limit.id}" data-type="limit">✕</button>
+                </span>
             </div>
         `;
 
@@ -129,7 +132,10 @@ function renderSavings() {
             </div>
             <div class="goal-card-footer">
                 <span>$${remaining.toLocaleString("en-CA")} to go</span>
-                <span>${percentage.toFixed(0)}%</span>
+                <span style="display:flex; align-items:center; gap:0.5rem;">
+                    <span>${percentage.toFixed(0)}%</span>
+                    <button class="delete-goal-btn" data-id="${goal.id}" data-type="savings">✕</button>
+                </span>
             </div>
         `;
 
@@ -147,3 +153,132 @@ function renderSavings() {
 // INITIAL RENDER
 renderLimits();
 renderSavings();
+
+// MODAL LOGIC
+const limitModalOverlay = document.getElementById("limit-modal-overlay");
+const savingsModalOverlay = document.getElementById("savings-modal-overlay");
+
+// Open modals
+document.getElementById("add-limit-btn").addEventListener("click", function () {
+    limitModalOverlay.classList.add("active");
+});
+
+document.getElementById("add-savings-btn").addEventListener("click", function () {
+    savingsModalOverlay.classList.add("active");
+});
+
+// Close modals
+document.getElementById("limit-cancel-btn").addEventListener("click", function () {
+    limitModalOverlay.classList.remove("active");
+    document.getElementById("limit-error").textContent = "";
+});
+
+document.getElementById("savings-cancel-btn").addEventListener("click", function () {
+    savingsModalOverlay.classList.remove("active");
+    document.getElementById("savings-error").textContent = "";
+});
+
+// Close modal when clicking outside
+limitModalOverlay.addEventListener("click", function (event) {
+    if (event.target === limitModalOverlay) {
+        limitModalOverlay.classList.remove("active");
+        document.getElementById("limit-error").textContent = "";
+    }
+});
+
+savingsModalOverlay.addEventListener("click", function (event) {
+    if (event.target === savingsModalOverlay) {
+        savingsModalOverlay.classList.remove("active");
+        document.getElementById("savings-error").textContent = "";
+    }
+});
+
+// SAVE NEW LIMIT
+document.getElementById("limit-save-btn").addEventListener("click", function () {
+    const name = document.getElementById("limit-name-input").value.trim();
+    const spent = parseFloat(document.getElementById("limit-spent-input").value);
+    const limit = parseFloat(document.getElementById("limit-max-input").value);
+    const error = document.getElementById("limit-error");
+
+    if (!name || isNaN(spent) || isNaN(limit)) {
+        error.textContent = "Please fill in all fields.";
+        return;
+    }
+
+    if (limit <= 0) {
+        error.textContent = "Limit must be greater than $0.";
+        return;
+    }
+
+    const limits = getLimits();
+    limits.push({
+        id: Date.now(),
+        name: name,
+        spent: spent,
+        limit: limit
+    });
+
+    saveLimits(limits);
+    renderLimits();
+
+    // Reset and close modal
+    document.getElementById("limit-name-input").value = "";
+    document.getElementById("limit-spent-input").value = "";
+    document.getElementById("limit-max-input").value = "";
+    error.textContent = "";
+    limitModalOverlay.classList.remove("active");
+});
+
+// SAVE NEW SAVINGS GOAL
+document.getElementById("savings-save-btn").addEventListener("click", function () {
+    const name = document.getElementById("savings-name-input").value.trim();
+    const saved = parseFloat(document.getElementById("savings-saved-input").value);
+    const target = parseFloat(document.getElementById("savings-target-input").value);
+    const error = document.getElementById("savings-error");
+
+    if (!name || isNaN(saved) || isNaN(target)) {
+        error.textContent = "Please fill in all fields.";
+        return;
+    }
+
+    if (target <= 0) {
+        error.textContent = "Target must be greater than $0.";
+        return;
+    }
+
+    const savings = getSavings();
+    savings.push({
+        id: Date.now(),
+        name: name,
+        saved: saved,
+        target: target
+    });
+
+    saveSavingsGoals(savings);
+    renderSavings();
+
+    // Reset and close modal
+    document.getElementById("savings-name-input").value = "";
+    document.getElementById("savings-saved-input").value = "";
+    document.getElementById("savings-target-input").value = "";
+    error.textContent = "";
+    savingsModalOverlay.classList.remove("active");
+});
+
+// DELETE GOAL
+document.addEventListener("click", function (event) {
+    if (event.target.classList.contains("delete-goal-btn")) {
+        const id = parseInt(event.target.dataset.id);
+        const type = event.target.dataset.type;
+
+        if (type === "limit") {
+            const limits = getLimits().filter(function (l) { return l.id !== id; });
+            saveLimits(limits);
+            renderLimits();
+        } else {
+            const savings = getSavings().filter(function (s) { return s.id !== id; });
+            saveSavingsGoals(savings);
+            renderSavings();
+        }
+    }
+});
