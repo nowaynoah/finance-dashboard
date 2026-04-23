@@ -88,7 +88,7 @@ No server required. All data is stored in the browser via localStorage and sessi
 
 ## Video Presentation
 
-[![Watch the Demo](https://img.youtube.com/vi/VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=zdOODJCdI-Y)
+[![Watch the Demo](https://img.youtube.com/vi/VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=_JywWOy9AA0)
 
 ---
 
